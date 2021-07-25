@@ -23,8 +23,8 @@ public class Handler {
 
     @ExceptionHandler(LivroAnoPublicacaoInvalidoException.class)
     public ResponseEntity<StandardError> livroAnoPublicacaoInvalido(LivroAnoPublicacaoInvalidoException e, HttpServletRequest request) {
-        return new ResponseEntity<>(new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(),
-                "Request não completada.", e.getMessage(), request.getRequestURI()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new StandardError(Instant.now(), HttpStatus.BAD_REQUEST.value(),
+                "Request não completada.", e.getMessage(), request.getRequestURI()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RequestInvalidaException.class)
