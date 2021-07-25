@@ -7,9 +7,7 @@ import com.marcohnp.dev1lista2.mapper.LivroMapper;
 import com.marcohnp.dev1lista2.model.LivroModel;
 import com.marcohnp.dev1lista2.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +36,7 @@ public class LivroService {
         return LivroMapper.mapToModel(repository.save(LivroMapper.mapToEntity(model)));
     }
 
-    public boolean anoPublicacaoValido(String ano) {
+    private boolean anoPublicacaoValido(String ano) {
         try {
             var sdf = new SimpleDateFormat("yyyy");
             Date anoPublicacao = sdf.parse(ano);
@@ -58,7 +56,7 @@ public class LivroService {
         return LivroMapper.mapToModel(repository.save(entity));
     }
 
-    public void atualizaLivro(LivroModel model, LivroEntity entity) {
+    private void atualizaLivro(LivroModel model, LivroEntity entity) {
         entity.setTitulo(model.getTitulo());
         entity.setAutorPrimeiroNome(model.getAutorPrimeiroNome());
         entity.setAutorSegundoNome(model.getAutorSegundoNome());

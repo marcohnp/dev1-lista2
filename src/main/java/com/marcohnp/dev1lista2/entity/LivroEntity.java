@@ -19,7 +19,8 @@ public class LivroEntity {
     private String editora;
     private Boolean doacao;
 
-    public LivroEntity() {}
+    public LivroEntity() {
+    }
 
     public LivroEntity(Integer id, String titulo, String autorPrimeiroNome, String autorSegundoNome,
                        String anoPublicacao, String editora, Boolean doacao) {

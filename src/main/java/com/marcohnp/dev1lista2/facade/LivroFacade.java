@@ -20,12 +20,12 @@ public class LivroFacade {
         return service.listar().stream().map(LivroMapper::mapToResponse).collect(Collectors.toList());
     }
 
-    public LivroResponse inserir(LivroRequest request) {
-        return LivroMapper.mapToResponse(service.inserir(LivroMapper.mapToModel(request)));
-    }
-
     public LivroResponse recuperar(Integer id) {
         return LivroMapper.mapToResponse(service.recuperar(id));
+    }
+
+    public LivroResponse inserir(LivroRequest request) {
+        return LivroMapper.mapToResponse(service.inserir(LivroMapper.mapToModel(request)));
     }
 
     public LivroResponse atualizar(Integer id, LivroRequest request) {
