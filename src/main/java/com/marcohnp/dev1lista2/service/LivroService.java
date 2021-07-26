@@ -27,12 +27,12 @@ public class LivroService {
 
     public LivroModel recuperar(Integer id) {
         return LivroMapper.mapToModel(repository.findById(id).orElseThrow(
-                LivroNotFoundException::new));
+                () -> new LivroNotFoundException("Livro não encontrado.")));
     }
 
     public LivroModel inserir(LivroModel model) {
         if (!anoPublicacaoValido(model.getAnoPublicacao()))
-            throw new LivroAnoPublicacaoInvalidoException();
+            throw new LivroAnoPublicacaoInvalidoException("Ano inválido. Ano de publicação tem que ser entre 1800 e 2021.");
         return LivroMapper.mapToModel(repository.save(LivroMapper.mapToEntity(model)));
     }
 
@@ -66,8 +66,7 @@ public class LivroService {
     }
 
     public void apagar(Integer id) {
-        repository.findById(id).orElseThrow(
-                LivroNotFoundException::new);
+        repository.findById(id).orElseThrow(() -> new LivroNotFoundException("Livro não encontrado."));
         repository.deleteById(id);
     }
 }

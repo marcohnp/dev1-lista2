@@ -43,8 +43,9 @@ class LivroServiceTest {
 
     @Test
     void recuperar_deveLancarException_quandoUmaRequestForInvalida() {
-        when(repository.findById(any())).thenThrow(LivroNotFoundException.class);
-        assertThrows(LivroNotFoundException.class, () -> service.recuperar(2));
+        when(repository.findById(any())).thenReturn(Optional.empty());
+        var exception = assertThrows(LivroNotFoundException.class, () -> service.recuperar(2));
+        assertEquals(new LivroNotFoundException("Livro não encontrado."), exception);
     }
 
     @Test
@@ -60,14 +61,16 @@ class LivroServiceTest {
     void inserir_deveLancarException_quandoAnoForMenorQue1800() {
         var model = LivroModelStub.createLivroModelStub1();
         model.setAnoPublicacao("1799");
-        assertThrows(LivroAnoPublicacaoInvalidoException.class, () -> service.inserir(model));
+        var exception = assertThrows(LivroAnoPublicacaoInvalidoException.class, () -> service.inserir(model));
+        assertEquals(new LivroAnoPublicacaoInvalidoException("Ano inválido. Ano de publicação tem que ser entre 1800 e 2021."), exception);
     }
 
     @Test
     void inserir_deveLancarException_quandoAnoForMaiorQue2021() {
         var model = LivroModelStub.createLivroModelStub1();
         model.setAnoPublicacao("2022");
-        assertThrows(LivroAnoPublicacaoInvalidoException.class, () -> service.inserir(model));
+        var exception = assertThrows(LivroAnoPublicacaoInvalidoException.class, () -> service.inserir(model));
+        assertEquals(new LivroAnoPublicacaoInvalidoException("Ano inválido. Ano de publicação tem que ser entre 1800 e 2021."), exception);
     }
 
     @Test
@@ -81,7 +84,7 @@ class LivroServiceTest {
 
     @Test
     void atualizar_deveLancarException_quandoResquestForInvalida() {
-        when(repository.findById(any())).thenThrow(LivroNotFoundException.class);
+        when(repository.findById(any())).thenReturn(Optional.empty());
         assertThrows(LivroNotFoundException.class,
                 () -> service.atualizar(2, LivroModelStub.createLivroModelStub2()));
         verify(repository, never()).save(LivroEntityStub.createLivroEntityStub2());
@@ -95,10 +98,10 @@ class LivroServiceTest {
     }
 
     @Test
-    void deletar_deveChamarRepository_quandoRequestForInvalida() {
-        when(repository.findById(any())).thenThrow(LivroNotFoundException.class);
-        assertThrows(LivroNotFoundException.class, () -> service.apagar(1));
+    void deletar_deveLancarException_quandoRequestForInvalida() {
+        when(repository.findById(any())).thenReturn(Optional.empty());
+        var exception = assertThrows(LivroNotFoundException.class, () -> service.apagar(1));
+        assertEquals(new LivroNotFoundException("Livro não encontrado."), exception);
         verify(repository, never()).deleteById(1);
-
     }
 }
